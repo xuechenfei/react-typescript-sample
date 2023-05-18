@@ -1,17 +1,23 @@
 // import React, { useState } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import Table from "./components/Table";
 import { SortOrder } from "./enum";
 import { TableColumn } from "./components/Table/type";
 
-// 测试pre-commit....
+interface Person {
+  id: number;
+  name: string;
+  age: number;
+  department: string;
+}
+
 function App() {
   const [fixedLeftColumns, setFixedLeftColumns] = useState<number>(0);
   const [fixedRightColumns, setFixedRightColumns] = useState<number>(0);
-
-  const data = [];
+  const [scrollX, setScrollX] = useState<number>(1500);
+  const [data, setData] = useState<Person[]>([]);
 
   const generateRandomData = (count: number) => {
     const randomData = [];
@@ -36,12 +42,14 @@ function App() {
     return randomData;
   };
 
-  const randomData = generateRandomData(105);
-  data.push(...randomData);
-  console.log(data);
+  useEffect(() => {
+    const randomData = generateRandomData(105);
+    data.push(...randomData);
+    setData([...data]);
+  }, []);
 
   const columns: TableColumn[] = [
-    { key: "id", label: "ID", width: 100 },
+    { key: "id", label: "ID", width: 200 },
     { key: "name", label: "Name" },
     {
       key: "age",
@@ -72,23 +80,31 @@ function App() {
       <Table
         data={data}
         columns={columns}
-        fixedLeftColumns={fixedLeftColumns}
-        fixedRightColumns={fixedRightColumns}
+        fixedLeftColumns={fixedLeftColumns || 0}
+        fixedRightColumns={fixedRightColumns || 0}
         defaultSortColumn="id"
         defaultSortOrder={SortOrder.Ascending}
-        scrollX={1500}
+        scrollX={scrollX || 800}
       />
       <div style={{ marginTop: 50 }}>
+        <label>
+          scrollX:
+          <input
+            type="number"
+            value={scrollX || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setScrollX(parseInt(e.target.value))
+            }
+          />
+        </label>
         <label>
           fixedLeftColumns:
           <input
             type="number"
-            name="username"
-            value={fixedLeftColumns}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const value = parseInt(e.target.value);
-              setFixedLeftColumns(value);
-            }}
+            value={fixedLeftColumns || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFixedLeftColumns(parseInt(e.target.value))
+            }
           />
         </label>
 
@@ -96,12 +112,10 @@ function App() {
           fixedRightColumns:
           <input
             type="number"
-            name="password"
-            value={fixedRightColumns}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const value = parseInt(e.target.value);
-              setFixedRightColumns(value);
-            }}
+            value={fixedRightColumns || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFixedRightColumns(parseInt(e.target.value))
+            }
           />
         </label>
       </div>

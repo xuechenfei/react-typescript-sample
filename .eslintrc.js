@@ -24,5 +24,6 @@ module.exports = {
     "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/quotes": ["error", "double"],
+    "@typescript-eslint/no-unused-vars": "off",
   },
 };

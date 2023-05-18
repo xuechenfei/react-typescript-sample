@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, CSSProperties, useEffect } from "react";
 import { SortOrder } from "../../enum/Table";
 import Pagination from "../Pagination";
 import { TableColumn, TableProps } from "./type";
@@ -24,12 +24,7 @@ const Table: React.FC<TableProps> = ({
   const [sortOrder, setSortOrder] = useState<SortOrder>(defaultSortOrder);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [tablePageSize, setTablePageSize] = useState<number>(pageSize);
-
-  useEffect(() => {
-    if (fixedLeftColumns + fixedRightColumns > columns.length) {
-      return alert("fixedLeftColumns 或 fixedRightColumns设置异常");
-    }
-  }, [fixedLeftColumns, fixedRightColumns, columns.length]);
+  const [refresh, setRefresh] = useState(0);
 
   // 对数据进行排序
   const sortedData = [...data].sort((a, b) => {
@@ -126,11 +121,19 @@ const Table: React.FC<TableProps> = ({
       }
     });
     columns.forEach(({ width }, index) => {
-      if (!width)
-        columns[index].width = (scrollX - definedWidth) / undefinedCount;
+      if (scrollX - definedWidth > 0) {
+        if (!width)
+          columns[index].width = (scrollX - definedWidth) / undefinedCount;
+      } else {
+        columns[index].width = 0;
+      }
     });
+    setRefresh(Math.random());
   };
-  calcColWidth(columns);
+
+  useEffect(() => {
+    calcColWidth(columns);
+  }, [scrollX]);
 
   return (
     <>
