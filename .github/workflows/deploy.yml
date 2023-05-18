@@ -2,20 +2,32 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # 设置要触发部署的分支，这里使用的是 main 分支
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest # 选择适合您的环境的 runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 添加其他步骤，例如构建应用程序
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.15.4
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Add build step here if needed
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          branch: gh-pages # 设置要部署到的分支，这里使用的是 gh-pages 分支
-          folder: build # 设置要部署的文件夹路径，根据您的项目设置
+          branch: gh-pages
+          folder: build
+
+          # Optional: If your project is a React app, you may need to set the following options
+          # node-version: 14.15.4
+          # build-script: npm run build
