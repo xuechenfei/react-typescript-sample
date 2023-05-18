@@ -1,4 +1,5 @@
 name: Deploy to GitHub Pages
+
 on:
   push:
     branches:
@@ -18,17 +19,13 @@ jobs:
           node-version: 14.15.4
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      # Add build step here if needed
+      - name: Build
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        run: |
-          npm run build  # 替换为您项目的构建命令
-          npm run deploy  # 替换为将构建文件部署到GitHub Pages的命令
-        env:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-          # Optional: If your project is a React app, you may need to set the following options
-          # node-version: 14.15.4
-          # build-script: npm run build
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: build
