@@ -26,9 +26,6 @@ jobs:
         run: |
           npm run build  # 替换为您项目的构建命令
           npm run deploy  # 替换为将构建文件部署到GitHub Pages的命令
-        with:
-          branch: gh-pages
-          folder: build
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
