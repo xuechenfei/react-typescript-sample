@@ -24,9 +24,14 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
+        run: |
+          npm run build  # 替换为您项目的构建命令
+          npm run deploy  # 替换为将构建文件部署到GitHub Pages的命令
         with:
           branch: gh-pages
           folder: build
+        env:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           # Optional: If your project is a React app, you may need to set the following options
           # node-version: 14.15.4
