@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-// 测试pre-commit
+// 测试pre-commit....
 function App() {
   return (
     <div className="App">
