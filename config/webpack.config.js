@@ -1,6 +1,6 @@
 'use strict';
 
-const productionPublicPath = '/react-typescript-sample'
+const productionPublicPath = '/react-typescript-sample/'
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
