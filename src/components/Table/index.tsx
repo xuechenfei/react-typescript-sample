@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = ({
 
   useEffect(() => {
     if (fixedLeftColumns + fixedRightColumns > columns.length) {
-      throw new Error("fixedLeftColumns 或 fixedRightColumns设置异常");
+      return alert("fixedLeftColumns 或 fixedRightColumns设置异常");
     }
   }, [fixedLeftColumns, fixedRightColumns, columns.length]);
 
@@ -101,8 +101,14 @@ const Table: React.FC<TableProps> = ({
     };
 
     if (index < fixedLeftColumns) {
+      if (index === columns.length - 1) {
+        return { right: 0, ...styleAttr, ...stickyStyle };
+      }
       return { left: calcTotalLeftWidth(), ...styleAttr, ...stickyStyle };
     } else if (index > columns.length - fixedRightColumns - 1) {
+      if (index === 0) {
+        return { left: 0, ...styleAttr, ...stickyStyle };
+      }
       return { right: calcTotalRightWidth(), ...styleAttr, ...stickyStyle };
     }
 

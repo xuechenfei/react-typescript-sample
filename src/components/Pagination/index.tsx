@@ -15,7 +15,7 @@ const Pagination: React.FC<PaginationProps> = ({
   pageSize,
   onPageChange,
   onPageSizeChange,
-  pageSizeOptions = [],
+  pageSizeOptions = [10, 20, 30],
 }) => {
   const handlePreviousPage = () => {
     if (currentPage > 1) onPageChange(currentPage - 1);
